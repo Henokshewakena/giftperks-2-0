@@ -60,7 +60,29 @@ const Marketplace = () => {
   const getProducts = () => {
     // If there are no products, return null
     if (!productLength) return null;
-    const products = [];
+    const products = [
+      {
+        id: 1,
+        name: "Product 1",
+        price: "$100",
+        img: "/assets/images/gift-box.png",
+        description: "Description of product 1",
+      },
+      {
+        id: 2,
+        name: "Product 2",
+        price: "$150",
+        img: "/assets/images/gift-box.png",
+        description: "Description of product 2",
+      },
+      {
+        id: 3,
+        name: "Product 3",
+        price: "$200",
+        img: "/assets/images/gift-box.png",
+        description: "Description of product 3",
+      },
+    ];
     // Loop through the products, return the Product component and push it to the products array
     for (let i = 0; i < productLength; i++) {
       products.push(

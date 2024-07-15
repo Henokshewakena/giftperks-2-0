@@ -2,11 +2,27 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
+import {
+  useAccount,
+  useContract,
+  useProvider,
+  useSigner,
+  useConnect,
+} from "wagmi";
+import { injected } from "wagmi/connectors";
+
+const stakingAddress = "YOUR_CONTRACT_ADDRESS";
+const stakingABI = [
+  // Add your ABI here
+];
 
 const StakingPage = () => {
-  const [provider, setProvider] = useState(null);
-  const { address } = useAccount();
-  const [signer, setSigner] = useState(null);
+  const { address, isConnected } = useAccount();
+  // const { data } = useSigner();
+  const provider = useProvider();
+  const { connect } = useConnect({
+    connector: injected({ target: "metaMask" }),
+  });
   const [contract, setContract] = useState(null);
   const [account, setAccount] = useState(null);
   const [stakeAmount, setStakeAmount] = useState("");
@@ -23,8 +39,8 @@ const StakingPage = () => {
       // const provider = new ethers.providers.Web3Provider(window.ethereum);
       // const signer = provider.getSigner();
       // const contract = new ethers.Contract(stakingAddress, stakingABI, signer);
-      setProvider(provider);
-      setSigner(signer);
+      // setProvider(provider);
+      // setSigner(signer);
       setContract(contract);
     };
     initWeb3();
@@ -173,7 +189,7 @@ const StakingPage = () => {
         </div>
       ) : (
         <button
-          onClick={connect}
+          onClick={connectWallet}
           className="border mt-6 bg-gradient-to-r from-amber-500 via-orange-600 to-yellow-500 rounded-3xl py-2 px-6 text-[12px] text-white"
         >
           Connect Wallet

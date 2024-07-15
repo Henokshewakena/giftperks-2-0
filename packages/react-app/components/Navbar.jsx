@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useConnect } from "wagmi";
 import { injected } from "wagmi/connectors";
-// import DensityMediumIcon from "@mui/icons-material/DensityMedium";
+import DensityMediumIcon from "@mui/icons-material/DensityMedium";
 
 const Nav = () => {
   const [toggleDropdown, setToggleDropdown] = useState(false);

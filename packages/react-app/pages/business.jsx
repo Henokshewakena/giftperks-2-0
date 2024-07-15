@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Popup from "@/components/Popup";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -7,6 +7,33 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import { useAccount } from "wagmi";
+import Image from "next/image";
+
+const products = [
+  {
+    id: 1,
+    name: "Product 1",
+    price: "$100",
+    img: "/assets/images/gift-box.png",
+    description: "Description of product 1",
+  },
+  {
+    id: 2,
+    name: "Product 2",
+    price: "$150",
+    img: "/assets/images/gift-box.png",
+    description: "Description of product 2",
+  },
+  {
+    id: 3,
+    name: "Product 3",
+    price: "$200",
+    img: "/assets/images/gift-box.png",
+    description: "Description of product 3",
+  },
+  // Add more products here
+];
 
 const business = () => {
   const { address } = useAccount();
@@ -36,12 +63,12 @@ const business = () => {
     setOpenEdit(false);
   };
   return (
-    <div className="flex">
+    <div className="flex w=full">
       <div className="border border-orange-300 rounded-lg shadow-sm p-5 mb-6">
         <button
           type="button"
           onClick={handleClickOpenCreate}
-          className="mt-4 border bg-gradient-to-r from-amber-500 via-orange-600 to-yellow-500 rounded-3xl py-2 px-6 text-[12px] text-white"
+          className="mt-4 mb-4 border bg-gradient-to-r from-amber-500 via-orange-600 to-yellow-500 rounded-3xl py-2 px-6 text-[12px] text-white"
         >
           Create
         </button>
@@ -49,7 +76,7 @@ const business = () => {
         {/* create product dialog */}
 
         <Dialog
-          open={open}
+          open={openCreate}
           onClose={handleCloseCreate}
           PaperProps={{
             component: "form",
@@ -63,7 +90,7 @@ const business = () => {
             },
           }}
         >
-          <DialogTitle>Create your business account</DialogTitle>
+          <DialogTitle>Create Product</DialogTitle>
           <DialogContent>
             <TextField
               autoFocus
@@ -101,7 +128,7 @@ const business = () => {
             </Button>
           </DialogActions>
         </Dialog>
-        <div className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 space-y-4">
           {products.map((product) => (
             <div
               key={product.id}
@@ -126,64 +153,62 @@ const business = () => {
                   Edit
                 </button>
               </div>
-
-              {/* edit product dialog */}
-
-              <Dialog
-                open={open}
-                onClose={handleCloseEdit}
-                PaperProps={{
-                  component: "form",
-                  onSubmit: (event) => {
-                    event.preventDefault();
-                    const formData = new FormData(event.currentTarget);
-                    const formJson = Object.fromEntries(formData.entries());
-                    const email = formJson.email;
-                    console.log(email);
-                    handleClose();
-                  },
-                }}
-              >
-                <DialogTitle>Create your business account</DialogTitle>
-                <DialogContent>
-                  <TextField
-                    autoFocus
-                    required
-                    margin="dense"
-                    id="name"
-                    name="email"
-                    label="Name"
-                    type="text"
-                    fullWidth
-                    variant="standard"
-                  />
-                  <TextField
-                    autoFocus
-                    required
-                    margin="dense"
-                    id="description"
-                    name="description"
-                    label="Description"
-                    type="text"
-                    fullWidth
-                    variant="standard"
-                  />
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={handleCloseEdit} className="">
-                    Cancel
-                  </Button>
-                  <Button
-                    type="submit"
-                    // edit logic
-                    className="border bg-gradient-to-r from-amber-500 via-orange-600 to-yellow-500 rounded-3xl md:py-2 md:px-6 px-3 py-2 md:text-[12px] text-white"
-                  >
-                    Edit
-                  </Button>
-                </DialogActions>
-              </Dialog>
             </div>
           ))}
+          {/* edit product dialog */}
+          <Dialog
+            open={openEdit}
+            onClose={handleCloseEdit}
+            PaperProps={{
+              component: "form",
+              onSubmit: (event) => {
+                event.preventDefault();
+                const formData = new FormData(event.currentTarget);
+                const formJson = Object.fromEntries(formData.entries());
+                const email = formJson.email;
+                console.log(email);
+                handleCloseEdit();
+              },
+            }}
+          >
+            <DialogTitle>Edit Product</DialogTitle>
+            <DialogContent>
+              <TextField
+                autoFocus
+                required
+                margin="dense"
+                id="name"
+                name="email"
+                label="Name"
+                type="text"
+                fullWidth
+                variant="standard"
+              />
+              <TextField
+                autoFocus
+                required
+                margin="dense"
+                id="description"
+                name="description"
+                label="Description"
+                type="text"
+                fullWidth
+                variant="standard"
+              />
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleCloseEdit} className="">
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                // edit logic
+                className="border bg-gradient-to-r from-amber-500 via-orange-600 to-yellow-500 rounded-3xl md:py-2 md:px-6 px-3 py-2 md:text-[12px] text-white"
+              >
+                Edit
+              </Button>
+            </DialogActions>
+          </Dialog>
         </div>
       </div>
     </div>
