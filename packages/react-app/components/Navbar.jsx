@@ -194,7 +194,7 @@ const Nav = () => {
             {toggleDropdown && (
               <div className="absolute border border-orange-500 right-0 top-full mt-3 w-full p-5 rounded-lg bg-white text-black min-w-[150px] flex flex-col gap-2 justify-end items-end">
                 <Link
-                  href="/products"
+                  href="/marketplace"
                   className="dropdown_link"
                   onClick={() => setToggleDropdown(false)}
                 >
