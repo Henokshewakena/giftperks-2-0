@@ -108,17 +108,17 @@ const Nav = () => {
               </Link>
 
               <Link
-                href="/rewards"
+                href="/staking"
                 className="orange_gradient rounded-full py-1.5 px-5"
               >
-                Rewards
+                Staking
               </Link>
 
               <Link
-                href="/vip"
+                href="/referals"
                 className="orange_gradient rounded-full py-1.5 px-5"
               >
-                VIP
+                Referals
               </Link>
               {!hideConnectBtn && (
                 // <button
