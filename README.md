@@ -1,197 +1,88 @@
-<!-- TITLE -->
-<p align="center"> 
-  <img width="100px" src="https://github.com/celo-org/celo-composer/blob/main/images/readme/celo_isotype.svg" align="center" alt="Celo" />
- <h2 align="center">Celo Composer</h2>
- <p align="center">Build, deploy, and iterate quickly on decentralized applications using Celo.</p>
-</p>
-  <p align="center">
-    <a href="https://github.com/celo-org/celo-composer/graphs/stars">
-      <img alt="GitHub Contributors" src="https://img.shields.io/github/stars/celo-org/celo-composer?color=FCFF52" />
-    </a>
-    <a href="https://github.com/celo-org/celo-composer/graphs/contributors">
-      <img alt="GitHub Contributors" src="https://img.shields.io/github/contributors/celo-org/celo-composer?color=E7E3D4" />
-    </a>
-    <a href="https://github.com/celo-org/celo-composer/issues">
-      <img alt="Issues" src="https://img.shields.io/github/issues/celo-org/celo-composer?color=E7E3D4" />
-    </a>
-    <a href="https://github.com/celo-org/celo-composer/pulls">
-      <img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/celo-org/celo-composer?color=E7E3D4" />
-    </a>
-    <a href="https://opensource.org/license/mit/">
-      <img alt="MIT License" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
-    </a>
-  </p>
-</p>
+# GiftPerks Integration with GiftenMarketPlace
 
-<!-- TABLE OF CONTENTS -->
+## Overview
 
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
-  </ol>
-</details>
+This project integrates the functionalities of VIP subscriptions, reward issuance, and marketplace interactions into a single `GiftPerks` contract. The contract handles purchases, subscriptions, VIP status management, and reward issuance based on the VIP levels.
 
-<!-- ABOUT THE PROJECT -->
+## Features
 
-## About The Project
+1. **VIP Subscription and Rewards:**
+   - Users can subscribe to Gold or Platinum VIP levels using `subscribeGold()` and `subscribePlatinum()` functions from the `VipSubscription` contract.
+   - Each subscription deducts the respective cUSD amount and awards a reward, transferring tokens to the subscriber.
+   - The `issueRewards()` function in `GiftPerks` calculates and issues rewards based on the user's VIP status.
 
-Celo Composer allows you to quickly build, deploy, and iterate on decentralized applications using Celo. It provides a number of frameworks, examples, and Celo specific functionality to help you get started with your next dApp.
+2. **Marketplace Interaction:**
+   - The `buyItem()` and `subscribeToVIP()` functions delegate their operations to the `GiftenMarketPlace` contract.
+   - Upon purchasing items or subscribing to VIP levels through the marketplace, the contract checks the caller’s VIP status and extends subscriptions or issues rewards accordingly.
 
-<p align="right">(<a href="#top">back to top</a>)</p>
+3. **Utility Functions:**
+   - `extendSubscription()`, `checkSubscriptionStatus()`: Manage subscription durations and check active subscriptions.
+   - `setVIPThreshold()`, `revokeVIPStatus()`: Manage VIP threshold and revoke VIP status for users.
 
-## Built With
+4. **VIP Level Checks:**
+   - `isGoldVIP()` and `isPlatinumVIP()`: Placeholder functions to determine if an account qualifies as Gold or Platinum VIP.
 
-Celo Composer is built on Celo to make it simple to build dApps using a variety of front-end frameworks, and libraries.
+5. **Contract Management:**
+   - `setTokenAddress()`: Update the token address for payments and rewards.
+   - `withdraw()`: Owner function to withdraw funds (cUSD tokens).
 
-- [Celo](https://celo.org/)
-- [Solidity](https://docs.soliditylang.org/en/v0.8.19/)
-- [Next.js](https://nextjs.org/)
-- [React.js](https://reactjs.org/)
-- [Material UI](https://mui.com/)
-- [React Native](https://reactnative.dev/)
-- [Flutter](https://docs.flutter.dev/)
-- [React-celo](https://github.com/celo-org/react-celo/)
-- [Rainbowkit-celo](https://github.com/celo-org/rainbowkit-celo)
+## Contract Integration
 
-<p align="right">(<a href="#top">back to top</a>)</p>
+### Superfluid Integration:
 
-<!-- GETTING STARTED -->
+- `ISuperfluid` and `ISuperToken` are used to handle the Superfluid host and cUSD token.
+- Subscriptions (`subscribeGold` and `subscribePlatinum`) use `transferFrom` to deduct cUSD from the user and transfer it as a reward.
 
-## Prerequisites
+### VIP Levels and Discounts:
 
-- Node
-- Git (v2.38 or higher)
+- Users are assigned VIP levels (Gold or Platinum) and can get a discount when purchasing items (`getDiscount`).
 
-## How to use Celo Composer
+### Rewards:
 
-The easiest way to start with Celo Composer is using `@celo/celo-composer`. This CLI tool lets you quickly start building dApps on Celo for multiple frameworks, including React (with either react-celo or rainbowkit-celo), React Native (w/o Expo), Flutter, and Angular. To get started, just run the following command, and follow the steps:
+- VIP users receive cUSD rewards when they subscribe to a VIP level.
 
-```bash
-npx @celo/celo-composer@latest create
-```
+### Marketplace Integration:
 
-### Front-end framework
+- Functions like `buyItem` and `subscribeToVIP` interact with the `GiftenMarketPlace` contract.
 
-![Celo Composer select framework](https://github.com/celo-org/celo-composer/blob/main/images/readme/cc_step_1.png?raw=true)
+### Subscription Handling:
 
-### Web3 library (for react-app)
+- Functions to extend subscriptions and check subscription status are included.
 
-![Celo Composer select framework](https://github.com/celo-org/celo-composer/blob/main/images/readme/cc_step_2.png?raw=true)
+## Merged Contract
 
-### Smart contract framework
+This merged contract combines the functionality of managing VIP subscriptions, rewards issuance, and marketplace interactions into a single `GiftPerks` contract.
 
-![Celo Composer tool selection](https://github.com/celo-org/celo-composer/blob/main/images/readme/cc_step_3.png?raw=true)
+### VIP Subscription and Rewards:
 
-### Subgraph
+- Users can subscribe to Gold or Platinum VIP levels.
+- Subscriptions deduct the respective cUSD amount and award a reward.
+- `issueRewards()` function calculates and issues rewards based on the user's VIP status.
 
-![Celo Composer subgraph support](https://github.com/celo-org/celo-composer/blob/main/images/readme/cc_step_4.png?raw=true)
+### Marketplace Interaction:
 
-### Name your dApp
+- `buyItem()` and `subscribeToVIP()` functions delegate their operations to the `GiftenMarketPlace` contract.
+- Upon purchasing items or subscribing to VIP levels, the contract extends subscriptions or issues rewards accordingly.
 
-![Celo Composer dApp name](https://github.com/celo-org/celo-composer/blob/main/images/readme/cc_step_5.png?raw=true)
+### Utility Functions:
 
-**_🔥Voila, you have a dApp ready to go. Voila, you have a dApp ready to go. Start building your dApp on Celo._**
+- `extendSubscription()`, `checkSubscriptionStatus()`: Manage subscription durations and check active subscriptions.
+- `setVIPThreshold()`, `revokeVIPStatus()`: Manage VIP threshold and revoke VIP status for users.
 
-### Getting started
+### VIP Level Checks:
 
-Once your custom dApp has been created, just install dependencies, either with `yarn` or `npm i`, and run the respective script from the `package.json` file.
-## Supported Frameworks
+- `isGoldVIP()` and `isPlatinumVIP()`: Determine if an account qualifies as Gold or Platinum VIP.
 
-### React
+### Contract Management:
 
-- Support for Website and Progressive Web Application.
-- Works with all major crypto wallets.
+- `setTokenAddress()`: Update the token address for payments and rewards.
+- `withdraw()`: Owner function to withdraw funds.
 
-Check [package readme](https://github.com/celo-org/celo-composer/blob/main/packages/react-app/README.md) to learn more about.
+## Front-End (React) Integration:
 
-### React Native
+- In your React front-end, interact primarily with `GiftenMarketPlace` for actions like purchasing items and subscribing to VIP levels.
+- Events emitted from these contracts (`TokensAndGiftCardsIssued`, `SubscriptionExtended`) can update the UI to reflect rewards issued and subscription status changes.
 
-- Out of the box config, just focus on buidl.
-- Support for Android and IOS.
-- Works with and without [Expo](https://expo.dev/).
-- Working example app included.
+## Summary
 
-Check [package readme](https://github.com/celo-org/celo-composer/blob/main/packages/react-native-app/README.md) to learn more about.
-
-### Flutter
-
-- One command to get started - Type `flutter run` to start development in your mobile phone.
-- Works with all major mobile crypto wallets.
-- Support for Android, IOS (Web, Windows, and Linux coming soon).
-- Working example app included.
-
-Check [package readme](https://github.com/celo-org/celo-composer/blob/main/packages/flutter-app/README.md) to learn more about.
-
-### Angular
-
-- Support for Website and Progressive Web Application.
-- Works with all major crypto wallets.
-
-Check [package readme](https://github.com/celo-org/celo-composer/blob/main/packages/angular-app/README.md) to learn more about.
-
-<!-- USAGE EXAMPLES -->
-
-## 🔭 Learning Solidity
-
-📕 Read the docs: <https://docs.soliditylang.org>
-
-- [Primitive Data Types](https://solidity-by-example.org/primitives/)
-- [Mappings](https://solidity-by-example.org/mapping/)
-- [Structs](https://solidity-by-example.org/structs/)
-- [Modifiers](https://solidity-by-example.org/function-modifier/)
-- [Events](https://solidity-by-example.org/events/)
-- [Inheritance](https://solidity-by-example.org/inheritance/)
-- [Payable](https://solidity-by-example.org/payable/)
-- [Fallback](https://solidity-by-example.org/fallback/)
-
-📧 Learn the [Solidity globals and units](https://solidity.readthedocs.io/en/v0.8.19/units-and-global-variables.html)
-
-## Support
-
-Join the Celo Discord server at <https://chat.celo.org>. Reach out on the dedicated repo channel [here](https://discord.com/channels/600834479145353243/941003424298856448).
-
-<!-- ROADMAP -->
-
-## Roadmap
-
-See the [open issues](https://github.com/celo-org/celo-composer/issues) for a full list of proposed features (and known issues).
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-<!-- CONTRIBUTING -->
-
-## Contributing
-
-We welcome contributions from the community.
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-## License
-
-Distributed under the MIT License. See `LICENSE.txt` for more information.
-
-<!-- CONTACT -->
-## Contact
-
-- [@CeloDevs](https://twitter.com/CeloDevs)
-- [Discord](https://discord.com/invite/celo)
-
-<p align="right">(<a href="#top">back to top</a>)</p>
+By integrating with the `GiftenMarketPlace` contract, the `GiftPerks` contract effectively manages VIP subscriptions, reward issuance, and subscription extensions based on purchases and subscriptions initiated through the marketplace. This setup ensures a cohesive flow between marketplace activities and VIP management, enhancing user experience and engagement within your application.
