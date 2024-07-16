@@ -26,5 +26,8 @@
   "keywords": [
     "celo-composer",
     "celo"
-  ]
+  ],
+  "dependencies": {
+    "@types/node": "^20.14.10"
+  }
 }
