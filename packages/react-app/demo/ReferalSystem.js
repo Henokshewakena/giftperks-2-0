@@ -1,14 +1,14 @@
-### Front-End (React)
+// ### Front-End (React)
 
-#### 1. Install dependencies
+// #### 1. Install dependencies
 
-Make sure you have the following dependencies installed:
-sh
-npm install web3 @openzeppelin/contracts axios
+// Make sure you have the following dependencies installed:
+// sh
+// npm install web3 @openzeppelin/contracts axios
 
-#### 2. Referral System Component
+// #### 2. Referral System Component
 
-Create a new component called `ReferralSystem.js`:
+// Create a new component called `ReferralSystem.js`:
 
 javascript
 import React, { useState, useEffect } from 'react';
