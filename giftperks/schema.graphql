@@ -1,0 +1,43 @@
+# To improve query performance, we strongly suggest adding indexes to any field that you plan to filter or sort by
+# Add the `@index` or `@index(unique: true)` annotation after any non-key field
+# https://academy.subquery.network/build/graphql.html#indexing-by-non-primary-key-field
+
+type VIPStatusChanged @entity {
+  id: ID!
+  customer: Bytes!
+  isVIP: Boolean!
+}
+
+type TokensAndGiftCardsIssued @entity {
+  id: ID!
+  recipient: Bytes!
+  tokenAmount: BigInt!
+  giftCardAmount: BigInt!
+}
+
+type SubscriptionExtended @entity {
+  id: ID!
+  customer: Bytes!
+  endTime: BigInt!
+}
+
+type Subscribed @entity {
+  id: ID!
+  user: Bytes!
+  level: Int!
+  reward: BigInt!
+}
+
+type ItemBought @entity {
+  id: ID!
+  buyer: Bytes!
+  itemId: BigInt!
+  price: BigInt!
+}
+
+type ItemAdded @entity {
+  id: ID!
+  itemId: BigInt!
+  price: BigInt!
+  seller: Bytes!
+}
