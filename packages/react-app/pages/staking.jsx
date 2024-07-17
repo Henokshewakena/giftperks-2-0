@@ -10,6 +10,24 @@ import {
   useConnect,
 } from "wagmi";
 import { InjectedConnector } from "wagmi/connectors/injected";
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+
+const bull = (
+  <Box
+    component="span"
+    sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
+  >
+    •
+  </Box>
+);
+
+
 
 const stakingAddress = "YOUR_CONTRACT_ADDRESS"; // Replace with your contract address
 const stakingABI = [
@@ -117,8 +135,30 @@ const StakingPage = () => {
       {isConnected ? (
         <div>
           <div>
+
+
+    <Card sx={{ minWidth: 275 }}>
+      <CardContent>
+        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+        Staked Balance: {stakeBalance} Tokens
+        </Typography>
+        
+      </CardContent>
+      
+    </Card>
+    
+    <Card sx={{ minWidth: 275 }}>
+      <CardContent>
+        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+        <p>Rewards: {rewards} Tokens</p>
+        </Typography>
+        
+      </CardContent>
+      
+    </Card>
+  
             <p>Staked Balance: {stakeBalance} Tokens</p>
-            <p>Rewards: {rewards} Tokens</p>
+           
           </div>
           <div className="flex md:flex-row flex-col md:gap-10 md:mb-5 mb-2">
             <div className="flex flex-col md:min-w-32 gap-2 border bg-gradient-to-r from-amber-500 via-orange-600 to-yellow-500 text-[12px] text-white rounded-xl px-4 py-2">
