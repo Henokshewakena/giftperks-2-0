@@ -11,9 +11,9 @@ import {
 } from "wagmi";
 import { InjectedConnector } from "wagmi/connectors/injected";
 
-const stakingAddress = "YOUR_CONTRACT_ADDRESS";
+const stakingAddress = "YOUR_CONTRACT_ADDRESS"; // Replace with your contract address
 const stakingABI = [
-  // Add your ABI here
+  // Replace with your contract ABI
 ];
 
 const StakingPage = () => {
@@ -42,41 +42,61 @@ const StakingPage = () => {
   }, [signer]);
 
   const connectWallet = async () => {
-    await connect();
-    if (address) {
-      updateBalances(address);
+    try {
+      await connect();
+      if (address) {
+        await updateBalances(address);
+      }
+    } catch (error) {
+      console.error("Failed to connect wallet:", error);
     }
   };
 
   const updateBalances = async (account) => {
-    const balance = await contract.getStake(account);
-    const reward = await contract.calculateRewards(account);
-    const totalStaked = await contract.totalStaked();
-    const userStake = await contract.stakes(account);
+    try {
+      const balance = await contract.getStake(account);
+      const reward = await contract.calculateRewards(account);
+      const totalStaked = await contract.totalStaked();
+      const userStake = await contract.stakes(account);
 
-    setStakeBalance(ethers.utils.formatEther(balance));
-    setRewards(ethers.utils.formatEther(reward));
-    setTotalStaked(ethers.utils.formatEther(totalStaked));
-    setLockEndTime(userStake.timestamp.toNumber() + lockPeriod);
+      setStakeBalance(ethers.utils.formatEther(balance));
+      setRewards(ethers.utils.formatEther(reward));
+      setTotalStaked(ethers.utils.formatEther(totalStaked));
+      setLockEndTime(userStake.timestamp.toNumber() + lockPeriod);
+    } catch (error) {
+      console.error("Failed to update balances:", error);
+    }
   };
 
   const handleStake = async () => {
-    const tx = await contract.stake(ethers.utils.parseEther(stakeAmount));
-    await tx.wait();
-    updateBalances(address);
-    setStakeAmount("");
+    try {
+      const tx = await contract.stake(ethers.utils.parseEther(stakeAmount));
+      await tx.wait();
+      await updateBalances(address);
+      setStakeAmount("");
+    } catch (error) {
+      console.error("Failed to stake:", error);
+    }
   };
 
   const handleUnstake = async () => {
-    const tx = await contract.withdrawStake();
-    await tx.wait();
-    updateBalances(address);
+    try {
+      const tx = await contract.withdrawStake();
+      await tx.wait();
+      await updateBalances(address);
+    } catch (error) {
+      console.error("Failed to unstake:", error);
+    }
   };
 
   const handleClaimRewards = async () => {
-    const tx = await contract.claimRewards();
-    await tx.wait();
-    updateBalances(address);
+    try {
+      const tx = await contract.claimRewards();
+      await tx.wait();
+      await updateBalances(address);
+    } catch (error) {
+      console.error("Failed to claim rewards:", error);
+    }
   };
 
   const formatTime = (seconds) => {
@@ -122,7 +142,7 @@ const StakingPage = () => {
                     onChange={(e) => setStakeAmount(e.target.value)}
                     className="w-full p-2 border border-gray-300 rounded mb-4"
                   />
-                  <button
+                                     <button
                     onClick={handleStake}
                     className="border mt-6 bg-gradient-to-r from-amber-500 via-orange-600 to-yellow-500 rounded-3xl py-2 px-6 text-[12px] text-white"
                   >
