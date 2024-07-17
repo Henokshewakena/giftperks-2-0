@@ -116,7 +116,7 @@ export default function Home() {
                 </Link>
 
                 <Link
-                  href="/"
+                  href="/business"
                   onClick={handleClickOpen}
                   className="border bg-gradient-to-r from-amber-500 via-orange-600 to-yellow-500 rounded-3xl md:py-2 md:px-6 px-3 py-2 md:text-[12px] text-white"
                 >
@@ -167,12 +167,13 @@ export default function Home() {
                     <Button onClick={handleClose} className="">
                       Cancel
                     </Button>
-                    <Button
+                    <Link
+                      href="/business"
                       type="submit"
                       className="border bg-gradient-to-r from-amber-500 via-orange-600 to-yellow-500 rounded-3xl md:py-2 md:px-6 px-3 py-2 md:text-[12px] text-white"
                     >
                       Create
-                    </Button>
+                    </Link>
                   </DialogActions>
                 </Dialog>
               </div>

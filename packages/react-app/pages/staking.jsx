@@ -11,6 +11,7 @@ import {
 } from "wagmi";
 import { injected } from "wagmi/connectors";
 import { readContract, writeContract, waitForTransaction } from "@wagmi/core";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 const stakingAddress = "YOUR_CONTRACT_ADDRESS";
 const stakingABI = [
@@ -22,10 +23,10 @@ const StakingPage = () => {
   const { address, isConnected } = useAccount();
   // const { data } = useSigner();
   // const provider = useProvider();
-  const { connect } = useConnect({
-    connector: injected({ target: "metaMask" }),
-  });
+  const { connect } = useConnect();
   const [contract, setContract] = useState(null);
+  const [signer, setSigner] = useState(null);
+  // const [contract, setContract] = useState(null);
   const [account, setAccount] = useState(null);
   const [stakeAmount, setStakeAmount] = useState("");
   const [unstakeAmount, setUnstakeAmount] = useState("");
@@ -42,18 +43,19 @@ const StakingPage = () => {
       // const signer = provider.getSigner();
       // const contract = new ethers.Contract(stakingAddress, stakingABI, signer);
       // setProvider(provider);
-      // setSigner(signer);
+
+      setSigner(signer);
       setContract(contract);
     };
     initWeb3();
   }, []);
 
-  const connectWallet = async () => {
-    await provider.send("eth_requestAccounts", []);
-    const account = await signer.getAddress();
-    setAccount(account);
-    updateBalances(account);
-  };
+  useEffect(() => {
+    if (window.ethereum && window.ethereum.isMiniPay) {
+      setHideConnectBtn(true);
+      connect({ connector: injected({ target: "minipay" }) });
+    }
+  }, []);
 
   const updateBalances = async (account) => {
     const balance = await contract.getStake(account);
@@ -190,12 +192,13 @@ const StakingPage = () => {
           </div>
         </div>
       ) : (
-        <button
-          onClick={connectWallet}
-          className="border mt-6 bg-gradient-to-r from-amber-500 via-orange-600 to-yellow-500 rounded-3xl py-2 px-6 text-[12px] text-white"
-        >
-          Connect Wallet
-        </button>
+        <ConnectButton
+          className="border bg-gradient-to-r from-amber-500 via-orange-600 to-yellow-500 rounded-3xl py-2 px-6 text-[12px] text-white"
+          showBalance={{
+            smallScreen: true,
+            largeScreen: false,
+          }}
+        />
       )}
     </div>
   );

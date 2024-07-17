@@ -1,18 +1,15 @@
-ማኔ ቴቄል ፋሬስ (Богатство Троица), [7/16/2024 7:32 AM]
 import { ethers } from "hardhat";
 const hre = require("hardhat");
 
 async function main() {
   try {
-  const miniPayNFT = await ethers.deployContract("MiniPay", [
-    "0x0D6Dc2f182Eafa687090F95466d5368726C1ca45",
-  ]);
+    const miniPayNFT = await ethers.deployContract("MiniPay", [
+      "0x0D6Dc2f182Eafa687090F95466d5368726C1ca45",
+    ]);
 
-  await miniPayNFT.waitForDeployment();
+    await miniPayNFT.waitForDeployment();
 
-  console.log("Minipay NFT address - " + (await miniPayNFT.getAddress()));
-
-
+    console.log("Minipay NFT address - " + (await miniPayNFT.getAddress()));
 
     const currentTimestampInSeconds = Math.round(Date.now() / 1000);
     const SIXTY_SECS = 60;
@@ -23,22 +20,20 @@ async function main() {
     const Lock = await hre.ethers.getContractFactory("Lock");
     const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
 
-    console.log(Unlock Time: ${unlockTime});
+    console.log(`UnlockTime: ${unlockTime}`);
 
     await lock.deployed();
     console.log(
-        Lock with 0.0001 ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}
+      `Lock with 0.0001 ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`
     );
 
-// We require the Hardhat Runtime Environment explicitly here. This is optional
-// but useful for running the script in a standalone fashion through node <script>.
-//
-// You can also run a script with npx hardhat run <script>. If you do that, Hardhat
-// will compile your contracts, add the Hardhat Runtime Environment's members to the
-// global scope, and execute the script.
+    // We require the Hardhat Runtime Environment explicitly here. This is optional
+    // but useful for running the script in a standalone fashion through node <script>.
+    //
+    // You can also run a script with npx hardhat run <script>. If you do that, Hardhat
+    // will compile your contracts, add the Hardhat Runtime Environment's members to the
+    // global scope, and execute the script.
 
-
- 
     // Deploy the VipSubscription contract
     const VipSubscription = await ethers.getContractFactory("VipSubscription");
     const vipSubscription = await VipSubscription.deploy();
@@ -46,7 +41,9 @@ async function main() {
     console.log("VipSubscription deployed to:", vipSubscription.address);
 
     // Deploy the GiftenMarketPlace contract
-    const GiftenMarketPlace = await ethers.getContractFactory("GiftenMarketPlace");
+    const GiftenMarketPlace = await ethers.getContractFactory(
+      "GiftenMarketPlace"
+    );
     const giftenMarketPlace = await GiftenMarketPlace.deploy();
     await giftenMarketPlace.deployed();
     console.log("GiftenMarketPlace deployed to:", giftenMarketPlace.address);
@@ -88,8 +85,7 @@ async function main() {
     await giftenToken.deployed();
     console.log("GiftenToken deployed to:", giftenToken.address);
 
-ማኔ ቴቄል ፋሬስ (Богатство Троица), [7/16/2024 7:32 AM]
-// Deploy the MiniPay contract
+    // Deploy the MiniPay contract
     const MiniPay = await ethers.getContractFactory("MiniPay");
     const miniPay = await MiniPay.deploy("INITIAL_OWNER_ADDRESS"); // replace with actual initial owner address
     await miniPay.deployed();
@@ -109,13 +105,22 @@ async function main() {
 
     // Deploy GiftenMarketPlace (if not already deployed in previous steps)
     // Replace with actual cUSD token address for GiftenMarketPlace deployment
-    const giftenMarketPlaceForStaking = await GiftenMarketPlace.deploy("CUSD_TOKEN_ADDRESS");
+    const giftenMarketPlaceForStaking = await GiftenMarketPlace.deploy(
+      "CUSD_TOKEN_ADDRESS"
+    );
     await giftenMarketPlaceForStaking.deployed();
-    console.log("GiftenMarketPlace deployed to:", giftenMarketPlaceForStaking.address);
+    console.log(
+      "GiftenMarketPlace deployed to:",
+      giftenMarketPlaceForStaking.address
+    );
 
     // Deploy ReferralRewards
     const ReferralRewards = await ethers.getContractFactory("ReferralRewards");
-    const referralRewards = await ReferralRewards.deploy(giftenToken.address, giftenMarketPlaceForStaking.address, "CUSD_TOKEN_ADDRESS");
+    const referralRewards = await ReferralRewards.deploy(
+      giftenToken.address,
+      giftenMarketPlaceForStaking.address,
+      "CUSD_TOKEN_ADDRESS"
+    );
     await referralRewards.deployed();
     console.log("ReferralRewards deployed to:", referralRewards.address);
 

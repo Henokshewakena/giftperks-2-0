@@ -12,6 +12,30 @@ import ErrorAlert from "@/components/alerts/ErrorAlert";
 import LoadingAlert from "@/components/alerts/LoadingAlert";
 import SuccessAlert from "@/components/alerts/SuccessAlert";
 
+const products = [
+  {
+    id: 1,
+    name: "Product 1",
+    price: "$100",
+    img: "/assets/images/gift-box.png",
+    description: "Description of product 1",
+  },
+  {
+    id: 2,
+    name: "Product 2",
+    price: "$150",
+    img: "/assets/images/gift-box.png",
+    description: "Description of product 2",
+  },
+  {
+    id: 3,
+    name: "Product 3",
+    price: "$200",
+    img: "/assets/images/gift-box.png",
+    description: "Description of product 3",
+  },
+];
+
 const Marketplace = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortType, setSortType] = useState("price");
@@ -26,19 +50,19 @@ const Marketplace = () => {
     setSortOrder(sortOrder === "asc" ? "desc" : "asc");
   };
 
-  //   const filteredProducts = products
-  //     .filter((product) =>
-  //       product.name.toLowerCase().includes(searchTerm.toLowerCase())
-  //     )
-  //     .sort((a, b) => {
-  //       if (sortType === "price") {
-  //         return sortOrder === "asc" ? a.price - b.price : b.price - a.price;
-  //       } else {
-  //         return sortOrder === "asc"
-  //           ? a.name.localeCompare(b.name)
-  //           : b.name.localeCompare(a.name);
-  //       }
-  //     });
+  const filteredProducts = products
+    .filter((product) =>
+      product.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .sort((a, b) => {
+      if (sortType === "price") {
+        return sortOrder === "asc" ? a.price - b.price : b.price - a.price;
+      } else {
+        return sortOrder === "asc"
+          ? a.name.localeCompare(b.name)
+          : b.name.localeCompare(a.name);
+      }
+    });
 
   // Use the useContractCall hook to read how many products are in the marketplace contract
   //   const { data } = useContractCall("getProductsLength", [], true);
@@ -60,29 +84,7 @@ const Marketplace = () => {
   const getProducts = () => {
     // If there are no products, return null
     if (!productLength) return null;
-    const products = [
-      {
-        id: 1,
-        name: "Product 1",
-        price: "$100",
-        img: "/assets/images/gift-box.png",
-        description: "Description of product 1",
-      },
-      {
-        id: 2,
-        name: "Product 2",
-        price: "$150",
-        img: "/assets/images/gift-box.png",
-        description: "Description of product 2",
-      },
-      {
-        id: 3,
-        name: "Product 3",
-        price: "$200",
-        img: "/assets/images/gift-box.png",
-        description: "Description of product 3",
-      },
-    ];
+
     // Loop through the products, return the Product component and push it to the products array
     for (let i = 0; i < productLength; i++) {
       products.push(
@@ -130,8 +132,8 @@ const Marketplace = () => {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {/* Loop through the products and return the Product component */}
-          {getProducts()}
-          {/* {filteredProducts.map((product) => (
+          {/* {getProducts()} */}
+          {filteredProducts.map((product) => (
             <div
               key={product.id}
               className="border border-orange-500 p-4 rounded-2xl shadow-sm"
@@ -146,13 +148,13 @@ const Marketplace = () => {
 
               <button
                 type="button"
-                onClick={connectWallet}
+                // onClick={}
                 className="border bg-gradient-to-r from-amber-500 via-orange-600 to-yellow-500 rounded-3xl py-2 px-6 text-[12px] text-white"
               >
                 Purchase
               </button>
             </div>
-          ))} */}
+          ))}
         </div>
       </div>
     </div>

@@ -19,7 +19,7 @@ const Nav = () => {
   useEffect(() => {
     if (window.ethereum && window.ethereum.isMiniPay) {
       setHideConnectBtn(true);
-      connect({ connector: injected({ target: "metaMask" }) });
+      connect({ connector: injected({ target: "minipay" }) });
     }
   }, []);
 
@@ -122,13 +122,6 @@ const Nav = () => {
                 Referals
               </Link>
               {!hideConnectBtn && (
-                // <button
-                //   type="button"
-                //   onClick={connect}
-                //   className="border bg-gradient-to-r from-amber-500 via-orange-600 to-yellow-500 rounded-3xl py-2 px-6 text-[12px] text-white"
-                // >
-                //   Connect Wallet
-                // </button>
                 <ConnectButton
                   className="border bg-gradient-to-r from-amber-500 via-orange-600 to-yellow-500 rounded-3xl py-2 px-6 text-[12px] text-white"
                   showBalance={{
@@ -215,12 +208,13 @@ const Nav = () => {
                   Referals
                 </Link>
 
-                <button
-                  type="button"
-                  className="border bg-gradient-to-r from-amber-500 via-orange-600 to-yellow-500 rounded-3xl py-2 px-3 text-[12px] text-white"
-                >
-                  Connect Wallet
-                </button>
+                <ConnectButton
+                  className="border bg-gradient-to-r from-amber-500 via-orange-600 to-yellow-500 rounded-3xl py-2 px-6 text-[12px] text-white"
+                  showBalance={{
+                    smallScreen: true,
+                    largeScreen: false,
+                  }}
+                />
               </div>
             )}
           </>
