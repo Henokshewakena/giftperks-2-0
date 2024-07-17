@@ -10,7 +10,9 @@
     "@typechain/hardhat": "^9.0.0",
     "@types/chai": "^4.2.0",
     "@types/mocha": ">=9.1.0",
+    "@types/node": "^20.14.10",
     "chai": "^4.2.0",
+    "ethers": "^6.13.1",
     "hardhat": "^2.19.5",
     "hardhat-gas-reporter": "^1.0.8",
     "solidity-coverage": "^0.8.1",
@@ -19,9 +21,14 @@
   },
   "dependencies": {
     "@nomicfoundation/hardhat-ethers": "^3.0.5",
+<<<<<<< HEAD
     "@openzeppelin/contracts": "^5.0.2",
     "@superfluid-finance/ethereum-contracts": "^1.10.0",
     "dotenv": "^16.4.3",
     "ethers": "^6.11.0"
+=======
+    "@openzeppelin/contracts": "^5.0.1",
+    "dotenv": "^16.4.3"
+>>>>>>> 60b41f1f35490c769afbbba0e9ea8a9043751c19
   }
 }
