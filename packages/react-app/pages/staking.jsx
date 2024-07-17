@@ -135,30 +135,14 @@ const StakingPage = () => {
       {isConnected ? (
         <div>
           <div>
-
-
-    <Card sx={{ minWidth: 275 }}>
-      <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-        Staked Balance: {stakeBalance} Tokens
-        </Typography>
-        
-      </CardContent>
-      
-    </Card>
-    
-    <Card sx={{ minWidth: 275 }}>
-      <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-        <p>Rewards: {rewards} Tokens</p>
-        </Typography>
-        
-      </CardContent>
-      
-    </Card>
-  
+          <div className="flex md:flex-row flex-col md:gap-10 md:mb-5 mb-2">
+            <div className="flex flex-col md:min-w-32 gap-2 border bg-gradient-to-r from-amber-500 via-orange-600 to-yellow-500 text-[12px] text-white rounded-xl px-4 py-2">
             <p>Staked Balance: {stakeBalance} Tokens</p>
-           
+            </div>
+            <div className="flex flex-col md:min-w-32 gap-2 border bg-gradient-to-r from-amber-500 via-orange-600 to-yellow-500 text-[12px] text-white rounded-xl px-4 py-2">
+            <p>Rewards: {rewards} Tokens</p>
+            </div>
+          </div>          
           </div>
           <div className="flex md:flex-row flex-col md:gap-10 md:mb-5 mb-2">
             <div className="flex flex-col md:min-w-32 gap-2 border bg-gradient-to-r from-amber-500 via-orange-600 to-yellow-500 text-[12px] text-white rounded-xl px-4 py-2">
