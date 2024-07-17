@@ -9,8 +9,7 @@ import {
   useSigner,
   useConnect,
 } from "wagmi";
-import { injected } from "wagmi/connectors";
-import { readContract, writeContract, waitForTransaction } from "@wagmi/core";
+import { InjectedConnector } from "wagmi/connectors/injected";
 
 const stakingAddress = "YOUR_CONTRACT_ADDRESS";
 const stakingABI = [
@@ -18,15 +17,14 @@ const stakingABI = [
 ];
 
 const StakingPage = () => {
-  const { ethers } = require("ethers");
   const { address, isConnected } = useAccount();
-  // const { data } = useSigner();
-  // const provider = useProvider();
+  const provider = useProvider();
+  const { data: signer } = useSigner();
   const { connect } = useConnect({
-    connector: injected({ target: "metaMask" }),
+    connector: new InjectedConnector(),
   });
+
   const [contract, setContract] = useState(null);
-  const [account, setAccount] = useState(null);
   const [stakeAmount, setStakeAmount] = useState("");
   const [unstakeAmount, setUnstakeAmount] = useState("");
   const [rewards, setRewards] = useState(0);
@@ -37,22 +35,17 @@ const StakingPage = () => {
   const [lockEndTime, setLockEndTime] = useState(null);
 
   useEffect(() => {
-    const initWeb3 = async () => {
-      // const provider = new ethers.providers.Web3Provider(window.ethereum);
-      // const signer = provider.getSigner();
-      // const contract = new ethers.Contract(stakingAddress, stakingABI, signer);
-      // setProvider(provider);
-      // setSigner(signer);
-      setContract(contract);
-    };
-    initWeb3();
-  }, []);
+    if (signer) {
+      const contractInstance = new ethers.Contract(stakingAddress, stakingABI, signer);
+      setContract(contractInstance);
+    }
+  }, [signer]);
 
   const connectWallet = async () => {
-    await provider.send("eth_requestAccounts", []);
-    const account = await signer.getAddress();
-    setAccount(account);
-    updateBalances(account);
+    await connect();
+    if (address) {
+      updateBalances(address);
+    }
   };
 
   const updateBalances = async (account) => {
@@ -70,20 +63,20 @@ const StakingPage = () => {
   const handleStake = async () => {
     const tx = await contract.stake(ethers.utils.parseEther(stakeAmount));
     await tx.wait();
-    updateBalances(account);
+    updateBalances(address);
     setStakeAmount("");
   };
 
   const handleUnstake = async () => {
     const tx = await contract.withdrawStake();
     await tx.wait();
-    updateBalances(account);
+    updateBalances(address);
   };
 
   const handleClaimRewards = async () => {
     const tx = await contract.claimRewards();
     await tx.wait();
-    updateBalances(account);
+    updateBalances(address);
   };
 
   const formatTime = (seconds) => {
@@ -91,11 +84,7 @@ const StakingPage = () => {
     const h = Math.floor((seconds % (3600 * 24)) / 3600);
     const m = Math.floor((seconds % 3600) / 60);
     const s = Math.floor(seconds % 60);
-    // return { d };
-    // d, { h };
-    // h, { m };
-    // m, { s };
-    // s;
+    return `${d}d ${h}h ${m}m ${s}s`;
   };
 
   const timeLeft = lockEndTime
@@ -116,17 +105,10 @@ const StakingPage = () => {
               <h2>Total value locked</h2>
               <h1>{totalStaked} Tokens</h1>
             </div>
-            {/* <div className="flex flex-col md:min-w-32 gap-2 border bg-gradient-to-r from-amber-500 via-orange-600 to-yellow-500 text-[12px] text-white rounded-xl px-4 py-2">
-          <h2>Points generated</h2>
-        </div> */}
             <div className="flex flex-col md:min-w-32 gap-2 border bg-gradient-to-r from-amber-500 via-orange-600 to-yellow-500 text-[12px] text-white rounded-xl px-4 py-2">
               <h2>APY Rate</h2>
               <h1>{apyRate}%</h1>
             </div>
-            {/* <div className="flex flex-col md:min-w-32 gap-2 border bg-gradient-to-r from-amber-500 via-orange-600 to-yellow-500 text-[12px] text-white rounded-xl px-4 py-2">
-          <h2>stakers</h2>
-          <h1>9,574</h1>
-        </div> */}
           </div>
           <div className="flex flex-col md:flex-row gap-5">
             <div className="flex md:w-1/2 px-3 py-3 md:flex-row md:gap-5 gap-2 border border-orange-300 rounded-lg ">
@@ -140,14 +122,6 @@ const StakingPage = () => {
                     onChange={(e) => setStakeAmount(e.target.value)}
                     className="w-full p-2 border border-gray-300 rounded mb-4"
                   />
-
-                  <Link
-                    href="/"
-                    className="orange_gradient mb-6 rounded-full border border-orange-300 py-1.5 px-5"
-                  >
-                    Claim
-                  </Link>
-
                   <button
                     onClick={handleStake}
                     className="border mt-6 bg-gradient-to-r from-amber-500 via-orange-600 to-yellow-500 rounded-3xl py-2 px-6 text-[12px] text-white"
@@ -156,9 +130,8 @@ const StakingPage = () => {
                   </button>
                 </div>
               </div>
-
               <div className="flex flex-col mb-6">
-                <h2 className="text-2xl font-semibold mb-2">Claim</h2>
+                <h2 className="text-2xl font-semibold mb-2">Unstake Tokens</h2>
                 <div className="flex flex-col p-4 border rounded-lg shadow-sm">
                   <input
                     type="number"
@@ -167,12 +140,6 @@ const StakingPage = () => {
                     onChange={(e) => setUnstakeAmount(e.target.value)}
                     className="w-full p-2 border border-gray-300 rounded mb-4"
                   />
-                  <Link
-                    href="/"
-                    className="orange_gradient mb-6 rounded-full border border-orange-300 py-1.5 px-5"
-                  >
-                    Claim
-                  </Link>
                   <button
                     onClick={handleUnstake}
                     className="rounded-3xl mt-6 py-2 px-6 text-[12px] text-white bg-red-500 hover:bg-red-600"
@@ -182,12 +149,17 @@ const StakingPage = () => {
                 </div>
               </div>
             </div>
-
             <div className="flex flex-row md:w-1/2 px-3 py-3 md:flex-row md:gap-5 border border-orange-300 rounded-lg ">
               <h2 className="text-2xl font-semibold mb-2">Lock down Period</h2>
               <p>{formatTime(timeLeft)}</p>
             </div>
           </div>
+          <button
+            onClick={handleClaimRewards}
+            className="border mt-6 bg-gradient-to-r from-amber-500 via-orange-600 to-yellow-500 rounded-3xl py-2 px-6 text-[12px] text-white"
+          >
+            Claim Rewards
+          </button>
         </div>
       ) : (
         <button

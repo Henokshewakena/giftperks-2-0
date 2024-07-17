@@ -1,10 +1,5 @@
-To achieve the features you've described, we'll need to update the smart contract and React code accordingly. The smart contract will include logic for limiting staking, claiming, and unstaking to once per week, and for calculating and distributing rewards. The React code will use Wagmi instead of Ethers.js for interacting with the smart contract.
-
-### Updated Smart Contract
-
-```solidity
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.27;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";

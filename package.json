@@ -28,6 +28,8 @@
     "celo"
   ],
   "dependencies": {
-    "@types/node": "^20.14.10"
+    "@types/node": "^20.14.10",
+    "ethers": "^6.13.1",
+    "wagmi": "^2.11.1"
   }
 }
