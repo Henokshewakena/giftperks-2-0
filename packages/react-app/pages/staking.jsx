@@ -10,6 +10,7 @@ import {
   useConnect,
 } from "wagmi";
 import { injected } from "wagmi/connectors";
+import { readContract, writeContract, waitForTransaction } from "@wagmi/core";
 
 const stakingAddress = "YOUR_CONTRACT_ADDRESS";
 const stakingABI = [
@@ -17,9 +18,10 @@ const stakingABI = [
 ];
 
 const StakingPage = () => {
+  const { ethers } = require("ethers");
   const { address, isConnected } = useAccount();
   // const { data } = useSigner();
-  const provider = useProvider();
+  // const provider = useProvider();
   const { connect } = useConnect({
     connector: injected({ target: "metaMask" }),
   });

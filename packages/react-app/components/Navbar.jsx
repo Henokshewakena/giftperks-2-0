@@ -11,6 +11,7 @@ import DensityMediumIcon from "@mui/icons-material/DensityMedium";
 const Nav = () => {
   const [toggleDropdown, setToggleDropdown] = useState(false);
   // add user session here
+  const [user, setUser] = useState([]);
 
   const [hideConnectBtn, setHideConnectBtn] = useState(false);
   const { connect } = useConnect();
@@ -108,17 +109,17 @@ const Nav = () => {
               </Link>
 
               <Link
-                href="/rewards"
+                href="/staking"
                 className="orange_gradient rounded-full py-1.5 px-5"
               >
-                Rewards
+                Staking
               </Link>
 
               <Link
-                href="/vip"
+                href="/referals"
                 className="orange_gradient rounded-full py-1.5 px-5"
               >
-                VIP
+                Referals
               </Link>
               {!hideConnectBtn && (
                 // <button
@@ -186,32 +187,32 @@ const Nav = () => {
         ) : (
           <>
             {/* if the user is not signed up or not connected their wallet */}
-            {/* <DensityMediumIcon
+            <DensityMediumIcon
               onClick={() => setToggleDropdown((prev) => !prev)}
-            /> */}
+            />
 
             {toggleDropdown && (
               <div className="absolute border border-orange-500 right-0 top-full mt-3 w-full p-5 rounded-lg bg-white text-black min-w-[150px] flex flex-col gap-2 justify-end items-end">
                 <Link
-                  href="/products"
+                  href="/marketplace"
                   className="dropdown_link"
                   onClick={() => setToggleDropdown(false)}
                 >
                   Products
                 </Link>
                 <Link
-                  href="/rewards"
+                  href="/staking"
                   className="dropdown_link"
                   onClick={() => setToggleDropdown(false)}
                 >
-                  Rewards
+                  Staking
                 </Link>
                 <Link
-                  href="/vip"
+                  href="/referals"
                   className="dropdown_link"
                   onClick={() => setToggleDropdown(false)}
                 >
-                  Vip
+                  Referals
                 </Link>
 
                 <button

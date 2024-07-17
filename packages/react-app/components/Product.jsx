@@ -20,6 +20,8 @@ import { toast } from "react-toastify";
 
 // Define the Product component which takes in the id of the product and some functions to display notifications
 const Product = ({ id, setError, setLoading, clear }) => {
+  const { ethers } = require("ethers");
+
   // Use the useAccount hook to store the user's address
   const { address } = useAccount();
 
